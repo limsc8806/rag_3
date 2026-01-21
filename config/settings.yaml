@@ -1,0 +1,35 @@
+project:
+  name: "dram-adaptive-rag-agent"
+
+paths:
+  # 예시: input/DDR5_Spec_JESD79-5.md
+  md_path: "input/DDR5_Spec_JESD79-5.md"
+  # 예시: input/images
+  images_dir: "input/images"
+  # 인덱스 저장 폴더(자동 생성)
+  index_dir: "./index_store"
+  # 옵션: 이미지 캡션 캐시(jsonl)
+  caption_cache_path: ""
+
+chunking:
+  # 토큰 기반이 아니라 문자 기반으로 단순화했습니다.
+  chunk_size_chars: 1400
+  chunk_overlap_chars: 250
+
+retrieval:
+  top_k_text: 6
+  top_k_img: 4
+  merge_top_k: 8
+  # TF-IDF cosine similarity 기반의 최소 관련성 임계치
+  min_relevance_score: 0.12
+
+agent:
+  max_loops: 2
+
+llm:
+  # LLM을 붙이려면 아래 중 하나를 사용하세요.
+  # - provider: openai (openai>=1 설치 및 OPENAI_API_KEY 필요)
+  # - provider: none (기본값, 추출형 답변)
+  provider: "openai"
+  model: "gpt-4.1-mini"  # 사용 환경에 맞게 변경
+  temperature: 0.2
