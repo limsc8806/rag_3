@@ -1,0 +1,164 @@
+questions:
+  - id: rtt_wr_default
+    query: "RTT_WR default setting"
+    expect_heading_contains:
+      - "RESET and Initialization Procedure"
+    expect_doc_types:
+      - "table"
+    expect_text_contains:
+      - "RTT_WR"
+      - "MR34 OP[5:3]"
+      - "001B"
+      - "240 Ohm"
+
+  - id: rtt_nom_rd_default
+    query: "RTT_NOM_RD default setting"
+    expect_heading_contains:
+      - "RESET and Initialization Procedure"
+    expect_doc_types:
+      - "table"
+    expect_text_contains:
+      - "RTT_NOM_RD"
+      - "MR35 OP[5:3]"
+      - "011B"
+      - "80 Ohm"
+
+  - id: mr34_rtt
+    query: "RTT PARK and RTT_WR MR34"
+    expect_heading_contains:
+      - "MR34"
+    expect_doc_types:
+      - "table"
+    expect_text_contains:
+      - "OP[5]"
+      - "RTT_WR"
+      - "RTT_PARK"
+
+  - id: mr7_info
+    query: "MR7 Register Information"
+    expect_heading_contains:
+      - "MR7 Register Information"
+    expect_doc_types:
+      - "table"
+    expect_text_contains:
+      - "Function"
+      - "Register Type"
+      - "Operand"
+      - "Data"
+      - "Notes"
+
+  - id: reset_init
+    query: "RESET and Initialization Procedure"
+    expect_heading_contains:
+      - "RESET and Initialization Procedure"
+    expect_doc_types:
+      - "text"
+    expect_text_contains:
+      - "default values"
+      - "power-up"
+      - "reset initialization"
+      - "MR Default Settings"
+
+  - id: vrefdq_calibration_text
+    query: "VrefDQ Calibration Specification"
+    expect_heading_contains:
+      - "VrefDQ Calibration Specification"
+    expect_doc_types:
+      - "text"
+    expect_text_contains:
+      - "voltage operating range"
+      - "VrefDQ set tolerance"
+      - "Vref step time"
+
+  - id: vrefca_training_image
+    query: "VrefCA training diagram"
+    expect_heading_contains:
+      - "VrefCA Training Specification"
+    expect_doc_types:
+      - "image"
+    expect_text_contains:
+      - "HEADING:"
+      - "VrefCA Training Specification"
+
+  - id: odt_timing_diagrams_image
+    query: "ODT timing diagrams"
+    expect_heading_contains:
+      - "ODT Timing Diagrams"
+    expect_doc_types:
+      - "image"
+    expect_text_contains:
+      - "HEADING:"
+      - "ODT Timing Diagrams"
+
+  - id: self_refresh_entry_exit_image
+    query: "Self Refresh Entry and Exit diagram"
+    expect_heading_contains:
+      - "Self Refresh Entry and Exit"
+    expect_doc_types:
+      - "image"
+    expect_text_contains:
+      - "HEADING:"
+      - "Self Refresh Entry and Exit"
+
+  - id: write_interamble_timing_image
+    query: "Write Interamble Timing Diagrams"
+    expect_heading_contains:
+      - "Write Interamble Timing Diagrams"
+    expect_doc_types:
+      - "image"
+    expect_text_contains:
+      - "HEADING:"
+      - "Write Interamble Timing Diagrams"
+
+  - id: read_burst_bl32_image
+    query: "Read Burst Operation BL32 timing"
+    expect_heading_contains:
+      - "Read Burst Operation for Optional BL32 Mode"
+    expect_doc_types:
+      - "image"
+    expect_text_contains:
+      - "HEADING:"
+      - "Read Burst Operation for Optional BL32 Mode"
+
+  - id: write_burst_bl32_image
+    query: "Write Burst Operation BL32 timing"
+    expect_heading_contains:
+      - "Write Burst Operation for Optional BL32 Mode"
+    expect_doc_types:
+      - "image"
+    expect_text_contains:
+      - "HEADING:"
+      - "Write Burst Operation for Optional BL32 Mode"
+
+  - id: vrefcs_training_image
+    query: "VrefCS Training Specification"
+    expect_heading_contains:
+      - "VrefCS Training Specification"
+    expect_doc_types:
+      - "image"
+    expect_text_contains:
+      - "HEADING:"
+      - "VrefCS Training Specification"
+
+  - id: ca_address_text
+    query: "CA [13:0] command address inputs"
+    expect_heading_contains:
+      - "Pinout Description"
+    expect_doc_types:
+      - "table"
+    expect_text_contains:
+      - "CA [13:0]"
+      - "Command/Address Inputs"
+      - "Input"
+
+  - id: dqs_function_table
+    query: "Symbol Type Function DQS_t Data Strobe Pinout Description"
+    expect_heading_contains:
+      - "Pinout Description"
+    expect_doc_types:
+      - "table"
+      - "text"
+    expect_text_contains:
+      - "DQS_t"
+      - "Data Strobe"
+      - "Input / Output"

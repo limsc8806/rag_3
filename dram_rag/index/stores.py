@@ -7,6 +7,7 @@ from typing import List, Optional
 
 import joblib
 import numpy as np
+import warnings
 from scipy import sparse
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -142,6 +143,7 @@ class IndexBundle:
         image_docs: List[Document],
         table_docs: List[Document],
     ) -> None:
+        self._write_metadata()
         self.text.build(text_docs)
         self.image.build(image_docs)
         self.table.build(table_docs)
@@ -152,9 +154,43 @@ class IndexBundle:
     @classmethod
     def load(cls, index_dir: str | Path) -> "IndexBundle":
         obj = cls(index_dir)
+        obj._check_metadata()
         obj.text = TfidfIndex.load("text", index_dir)
         image_docs = Path(index_dir) / "image.docs.jsonl"
         table_docs = Path(index_dir) / "table.docs.jsonl"
         obj.image = TfidfIndex.load("image", index_dir) if image_docs.exists() else None
         obj.table = TfidfIndex.load("table", index_dir) if table_docs.exists() else None
         return obj
+
+    def _write_metadata(self) -> None:
+        try:
+            import sklearn  # type: ignore
+        except Exception:
+            return
+        meta = {
+            "sklearn_version": getattr(sklearn, "__version__", ""),
+        }
+        path = self.index_dir / "index_metadata.json"
+        self.index_dir.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(meta, ensure_ascii=False), encoding="utf-8")
+
+    def _check_metadata(self) -> None:
+        path = self.index_dir / "index_metadata.json"
+        if not path.exists():
+            return
+        try:
+            meta = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            return
+        try:
+            import sklearn  # type: ignore
+        except Exception:
+            return
+        saved = (meta.get("sklearn_version") or "").strip()
+        current = getattr(sklearn, "__version__", "")
+        if saved and current and saved != current:
+            warnings.warn(
+                f"Index built with scikit-learn {saved}, running {current}. "
+                "Rebuild index for compatibility.",
+                UserWarning,
+            )

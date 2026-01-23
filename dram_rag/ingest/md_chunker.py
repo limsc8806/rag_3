@@ -17,6 +17,7 @@ def _heading_str(heading_path: List[str]) -> str:
 
 _TABLE_START_RE = re.compile(r"<table\b", re.IGNORECASE)
 _TABLE_END_RE = re.compile(r"</table>", re.IGNORECASE)
+_PIPE_TABLE_SEP_RE = re.compile(r"^\s*\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)+\|?\s*$")
 
 
 def _table_html_to_text(table_html: str) -> str:
@@ -86,6 +87,7 @@ def _extract_table_blocks(md_lines: List[str]) -> Tuple[List[dict], set[int]]:
                     "end_line": end,
                     "heading_path": line_heading[start] or [],
                     "html": table_html,
+                    "format": "html",
                 }
             )
             i = end + 1
@@ -93,6 +95,60 @@ def _extract_table_blocks(md_lines: List[str]) -> Tuple[List[dict], set[int]]:
         i += 1
 
     return tables, table_lines
+
+
+def _extract_pipe_tables(md_lines: List[str]) -> Tuple[List[dict], set[int]]:
+    """Extract markdown pipe tables and return (tables, table_line_ids)."""
+    sections = split_into_sections(md_lines)
+    line_heading: List[List[str]] = [[] for _ in range(len(md_lines))]
+    for s in sections:
+        for j in range(s.start_line, min(len(md_lines), s.start_line + len(s.lines))):
+            line_heading[j] = s.heading_path
+
+    tables: List[dict] = []
+    table_lines: set[int] = set()
+    i = 0
+    while i + 1 < len(md_lines):
+        line = md_lines[i]
+        sep = md_lines[i + 1]
+        if "|" in line and _PIPE_TABLE_SEP_RE.match(sep):
+            start = i
+            end = i + 1
+            j = i + 2
+            while j < len(md_lines):
+                if "|" not in md_lines[j] or not md_lines[j].strip():
+                    break
+                end = j
+                j += 1
+            table_lines.update(range(start, end + 1))
+            tables.append(
+                {
+                    "start_line": start,
+                    "end_line": end,
+                    "heading_path": line_heading[start] or [],
+                    "md_lines": md_lines[start : end + 1],
+                    "format": "pipe",
+                }
+            )
+            i = end + 1
+            continue
+        i += 1
+    return tables, table_lines
+
+
+def _pipe_table_to_text(lines: List[str]) -> str:
+    rows: List[str] = []
+    if len(lines) < 2:
+        return ""
+    for idx, line in enumerate(lines):
+        if idx == 1 and _PIPE_TABLE_SEP_RE.match(line):
+            continue
+        parts = [p.strip() for p in line.strip().strip("|").split("|")]
+        while parts and parts[-1] == "":
+            parts.pop()
+        if parts:
+            rows.append(" | ".join(parts))
+    return "\n".join(rows).strip()
 
 
 def chunk_markdown(
@@ -124,7 +180,10 @@ def chunk_markdown(
     for r in img_refs:
         refs_by_line.setdefault(r.line_no, []).append(r)
 
-    tables, table_lines = _extract_table_blocks(md_lines)
+    tables_html, html_table_lines = _extract_table_blocks(md_lines)
+    tables_pipe, pipe_table_lines = _extract_pipe_tables(md_lines)
+    tables = tables_html + tables_pipe
+    table_lines = html_table_lines | pipe_table_lines
 
     text_docs: List[Document] = []
     chunk_id = 0
@@ -221,7 +280,10 @@ def chunk_markdown(
 
     table_docs: List[Document] = []
     for t in tables:
-        table_text = _table_html_to_text(t["html"])
+        if t.get("format") == "pipe":
+            table_text = _pipe_table_to_text(t["md_lines"])
+        else:
+            table_text = _table_html_to_text(t["html"])
         if not table_text:
             continue
         table_docs.append(
@@ -240,7 +302,8 @@ def chunk_markdown(
                     "heading": _heading_str(t["heading_path"]),
                     "start_line": t["start_line"],
                     "end_line": t["end_line"],
-                    "raw_html": t["html"],
+                    "raw_html": t.get("html", ""),
+                    "raw_md": "\n".join(t.get("md_lines", [])) if t.get("format") == "pipe" else "",
                 },
             )
         )

@@ -99,3 +99,8 @@ dram_rag/
   agent/          # Adaptive RAG 컨트롤 플로우
   app/            # CLI
 ```
+
+## 9) 아키텍처 문서
+
+- `docs/ARCHITECTURE.md`: 소스 흐름/데이터 포맷/개선 포인트 정리
+- 소스 변경 시 `docs/ARCHITECTURE.md`도 함께 갱신합니다.
