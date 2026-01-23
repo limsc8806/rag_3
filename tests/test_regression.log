@@ -1,0 +1,164 @@
+Q: RTT_WR default setting
+  - table score=0.186 heading=3.5.36 MR34 (MA[7:0]=22_H) - RTT PARK & RTT_WR
+  - table score=0.127 heading=3.3 RESET and Initialization Procedure
+  - text score=0.117 heading=4.17.1 Introduction
+  - text score=0.110 heading=4.43.1 Data Output Disable
+  - text score=0.109 heading=3.5.39 MR37 (MA[7:0]= 25 $_H$ ) - ODTL Write Control Offset
+  expected_headings=['reset and initialization procedure']
+  expected_doc_types=['table']
+  expected_text_contains=['rtt_wr', 'mr34 op[5:3]', '001b', '240 ohm']
+  matched=True
+
+Q: RTT_NOM_RD default setting
+  - table score=0.192 heading=3.5.37 MR35 (MA[7:0]=23H) - RTT_NOM_WR & RTT_NOM_RD
+  - table score=0.128 heading=3.3 RESET and Initialization Procedure
+  - text score=0.114 heading=4.17.1 Introduction
+  - text score=0.108 heading=4.43.1 Data Output Disable
+  - text score=0.107 heading=3.5.39 MR37 (MA[7:0]= 25 $_H$ ) - ODTL Write Control Offset
+  expected_headings=['reset and initialization procedure']
+  expected_doc_types=['table']
+  expected_text_contains=['rtt_nom_rd', 'mr35 op[5:3]', '011b', '80 ohm']
+  matched=True
+
+Q: RTT PARK and RTT_WR MR34
+  - text score=0.463 heading=3.5.36 MR34 (MA[7:0]=22_H) - RTT PARK & RTT_WR
+  - table score=0.377 heading=3.5.36 MR34 (MA[7:0]=22_H) - RTT PARK & RTT_WR
+  - table score=0.252 heading=5.2 ODT Modes, Timing Diagrams and State Table (Cont'd)
+  - text score=0.236 heading=5.3.1 ODT Functional Description
+  - table score=0.224 heading=3.3 RESET and Initialization Procedure
+  expected_headings=['mr34']
+  expected_doc_types=['table']
+  expected_text_contains=['op[5]', 'rtt_wr', 'rtt_park']
+  matched=True
+
+Q: MR7 Register Information
+  - text score=1.000 heading=MR7 Register Information
+  - table score=0.703 heading=MR7 Register Information
+  - table score=0.518 heading=MR7 Register Information
+  - text score=0.225 heading=Tables (Cont'd)
+  - text score=0.224 heading=Tables (Cont'd)
+  expected_headings=['mr7 register information']
+  expected_doc_types=['table']
+  expected_text_contains=['function', 'register type', 'operand', 'data', 'notes']
+  matched=True
+
+Q: RESET and Initialization Procedure
+  - text score=0.286 heading=3.3 RESET and Initialization Procedure
+  - table score=0.193 heading=3.3 RESET and Initialization Procedure
+  - image score=0.178 heading=3.3.2 Reset Initialization with Stable Power
+  - text score=0.154 heading=3.3.2 Reset Initialization with Stable Power (Cont'd)
+  - text score=0.136 heading=3.3.1 Power-up Initialization Sequence (Cont'd)
+  expected_headings=['reset and initialization procedure']
+  expected_doc_types=['text']
+  expected_text_contains=['default values', 'power-up', 'reset initialization', 'mr default settings']
+  matched=True
+
+Q: VrefDQ Calibration Specification
+  - table score=0.486 heading=4.28 VrefDQ Calibration Specification
+  - table score=0.332 heading=3.5.12 MR10 (MA[7:0]=0A $_{H}$ ) - VrefDQ Calibration Value
+  - image score=0.315 heading=4.28 VrefDQ Calibration Specification
+  - image score=0.309 heading=4.28 VrefDQ Calibration Specification
+  - text score=0.295 heading=4.28 VrefDQ Calibration Specification (Cont'd)
+  expected_headings=['vrefdq calibration specification']
+  expected_doc_types=['text']
+  expected_text_contains=['voltage operating range', 'vrefdq set tolerance', 'vref step time']
+  matched=True
+
+Q: VrefCA training diagram
+  - table score=0.318 heading=4.26 VrefCA Training Specification
+  - table score=0.247 heading=4.26 VrefCA Training Specification (Cont'd)
+  - text score=0.229 heading=4.26 VrefCA Training Specification
+  - text score=0.219 heading=Figures (Cont'd)
+  - image score=0.201 heading=4.26 VrefCA Training Specification
+  expected_headings=['vrefca training specification']
+  expected_doc_types=['image']
+  expected_text_contains=['heading:', 'vrefca training specification']
+  matched=True
+
+Q: ODT timing diagrams
+  - image score=0.296 heading=5.3.3 ODT Timing Diagrams (Cont'd)
+  - image score=0.275 heading=5.3.3 ODT Timing Diagrams (Cont'd)
+  - text score=0.198 heading=5.2 ODT Modes, Timing Diagrams and State Table (Cont'd)
+  - text score=0.195 heading=4.17.4 Read Training Pattern Timing Diagrams (Cont'd)
+  - text score=0.182 heading=5.3.3 ODT Timing Diagrams
+  expected_headings=['odt timing diagrams']
+  expected_doc_types=['image']
+  expected_text_contains=['heading:', 'odt timing diagrams']
+  matched=True
+
+Q: Self Refresh Entry and Exit diagram
+  - image score=0.510 heading=4.13.7 Self Refresh Entry and Exit (Cont'd)
+  - text score=0.412 heading=4.13.7 Self Refresh Entry and Exit
+  - image score=0.384 heading=4.13.7 Self Refresh Entry and Exit
+  - image score=0.346 heading=4.13.7 Self Refresh Entry and Exit (Cont'd)
+  - image score=0.341 heading=4.13.7 Self Refresh Entry and Exit (Cont'd)
+  expected_headings=['self refresh entry and exit']
+  expected_doc_types=['image']
+  expected_text_contains=['heading:', 'self refresh entry and exit']
+  matched=True
+
+Q: Write Interamble Timing Diagrams
+  - image score=0.419 heading=4.5.2 Write Interamble Timing Diagrams (Cont'd)
+  - image score=0.272 heading=4.5.1 Read Interamble Timing Diagrams (Cont'd)
+  - text score=0.263 heading=4.5.2 Write Interamble Timing Diagrams (Cont'd)
+  - text score=0.220 heading=Contents (Cont'd)
+  - image score=0.209 heading=4.5.2 Write Interamble Timing Diagrams
+  expected_headings=['write interamble timing diagrams']
+  expected_doc_types=['image']
+  expected_text_contains=['heading:', 'write interamble timing diagrams']
+  matched=True
+
+Q: Read Burst Operation BL32 timing
+  - text score=0.311 heading=4.7.1 Read Burst Operation
+  - image score=0.296 heading=4.7.3 Read Burst Operation for Optional BL32 Mode (Cont'd)
+  - text score=0.295 heading=4.7.3 Read Burst Operation for Optional BL32 Mode (Cont'd)
+  - image score=0.282 heading=4.7.3 Read Burst Operation for Optional BL32 Mode
+  - text score=0.269 heading=Contents (Cont'd)
+  expected_headings=['read burst operation for optional bl32 mode']
+  expected_doc_types=['image']
+  expected_text_contains=['heading:', 'read burst operation for optional bl32 mode']
+  matched=True
+
+Q: Write Burst Operation BL32 timing
+  - image score=0.342 heading=4.8.4 Write Burst Operation for Optional BL32 Mode
+  - text score=0.304 heading=Figures
+  - image score=0.294 heading=4.8.4 Write Burst Operation for Optional BL32 Mode (Cont'd)
+  - image score=0.263 heading=4.8.2 Write Burst Operation
+  - image score=0.260 heading=4.8.2 Write Burst Operation
+  expected_headings=['write burst operation for optional bl32 mode']
+  expected_doc_types=['image']
+  expected_text_contains=['heading:', 'write burst operation for optional bl32 mode']
+  matched=True
+
+Q: VrefCS Training Specification
+  - image score=0.414 heading=4.27 VrefCS Training Specification (Cont'd)
+  - image score=0.394 heading=4.27 VrefCS Training Specification (Cont'd)
+  - table score=0.385 heading=4.27 VrefCS Training Specification (Cont'd)
+  - text score=0.267 heading=4.27 VrefCS Training Specification
+  - image score=0.229 heading=4.27 VrefCS Training Specification
+  expected_headings=['vrefcs training specification']
+  expected_doc_types=['image']
+  expected_text_contains=['heading:', 'vrefcs training specification']
+  matched=True
+
+Q: CA [13:0] command address inputs
+  - image score=0.275 heading=4.33 2N Mode (Cont'd)
+  - image score=0.254 heading=3.4.2 Mode Register WRITE (MRW)
+  - text score=0.204 heading=4.33 2N Mode (Cont'd)
+  - text score=0.170 heading=3.4.2 Mode Register WRITE (MRW)
+  - table score=0.151 heading=4.19.3.1 CA Loopback Equations
+  expected_headings=['pinout description']
+  expected_doc_types=['table']
+  expected_text_contains=['ca [13:0]', 'command/address inputs', 'input']
+  matched=True
+
+Q: Symbol Type Function DQS_t Data Strobe Pinout Description
+  - text score=0.420 heading=2.6 Pinout Description
+  - text score=0.314 heading=2 DDR5 SDRAM Package, Pinout Description and Addressing
+  - table score=0.166 heading=2.6 Pinout Description
+  - text score=0.145 heading=4.8.7.2 Data to Strobe Eye Height or Width Violations
+  - text score=0.136 heading=3 Functional Description
+  expected_headings=['pinout description']
+  expected_doc_types=['table', 'text']
+  expected_text_contains=['dqs_t', 'data strobe', 'input / output']
+  matched=True

@@ -32,6 +32,7 @@ class RetrievalRegressionTests(unittest.TestCase):
         self.assertTrue(self.questions, "No regression questions loaded.")
 
         failures = []
+        log_lines = []
         for q in self.questions:
             query = q["query"]
             expected_headings = [h.casefold() for h in q.get("expect_heading_contains", [])]
@@ -47,6 +48,7 @@ class RetrievalRegressionTests(unittest.TestCase):
             )
 
             matched = False
+            log_lines.append(f"Q: {query}")
             for r in results:
                 heading = (r.document.metadata or {}).get("heading", "")
                 heading_cf = heading.casefold()
@@ -61,12 +63,25 @@ class RetrievalRegressionTests(unittest.TestCase):
                     continue
                 matched = True
                 break
+            for r in results[:5]:
+                md = r.document.metadata or {}
+                log_lines.append(
+                    f"  - {r.document.doc_type} score={r.score:.3f} heading={md.get('heading','')}"
+                )
+            log_lines.append(f"  expected_headings={expected_headings}")
+            log_lines.append(f"  expected_doc_types={expected_doc_types}")
+            log_lines.append(f"  expected_text_contains={expected_text}")
+            log_lines.append(f"  matched={matched}")
+            log_lines.append("")
 
             if not matched:
                 failures.append(
                     f"Query='{query}' expected headings={expected_headings} "
                     f"doc_types={expected_doc_types} text_contains={expected_text}"
                 )
+
+        log_path = pathlib.Path(__file__).with_name("test_regression.log")
+        log_path.write_text("\n".join(log_lines).strip() + "\n", encoding="utf-8")
 
         if failures:
             msg = "Regression retrieval mismatches:\n- " + "\n- ".join(failures)
