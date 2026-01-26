@@ -24,12 +24,21 @@ class ChunkingConfig(BaseModel):
 class RetrievalConfig(BaseModel):
     top_k_text: int = 6
     top_k_img: int = 4
+    top_k_table: int = 4
     merge_top_k: int = 8
     min_relevance_score: float = 0.12
+    weight_text: float = 1.0
+    weight_table: float = 1.0
+    weight_image: float = 1.0
+    rewrite_mode: str = "heuristic"  # "heuristic" | "llm"
 
 
 class AgentConfig(BaseModel):
     max_loops: int = 2
+
+
+class GenerationConfig(BaseModel):
+    grade_mode: str = "heuristic"  # "heuristic" | "llm"
 
 
 class Settings(BaseModel):
@@ -37,6 +46,7 @@ class Settings(BaseModel):
     chunking: ChunkingConfig = Field(default_factory=ChunkingConfig)
     retrieval: RetrievalConfig = Field(default_factory=RetrievalConfig)
     agent: AgentConfig = Field(default_factory=AgentConfig)
+    generation: GenerationConfig = Field(default_factory=GenerationConfig)
     llm: LLMConfig = Field(default_factory=LLMConfig)
 
 

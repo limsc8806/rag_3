@@ -42,7 +42,11 @@ class AdaptiveRAGAgent:
                 st.query,
                 top_k_text=self.settings.retrieval.top_k_text,
                 top_k_img=self.settings.retrieval.top_k_img,
+                top_k_table=self.settings.retrieval.top_k_table,
                 merge_top_k=self.settings.retrieval.merge_top_k,
+                weight_text=self.settings.retrieval.weight_text,
+                weight_table=self.settings.retrieval.weight_table,
+                weight_image=self.settings.retrieval.weight_image,
             )
             st.trace.append({"node": "retrieve", "loop": loop, "query": st.query, "n": len(retrieved)})
 
@@ -53,7 +57,12 @@ class AdaptiveRAGAgent:
 
             if not filtered:
                 # Query rewrite
-                new_query = rewrite_query(st.question, prev_query=st.query)
+                new_query = rewrite_query(
+                    st.question,
+                    prev_query=st.query,
+                    mode=self.settings.retrieval.rewrite_mode,
+                    llm=self.llm,
+                )
                 st.trace.append({"node": "transform_query", "loop": loop, "new_query": new_query})
                 st.query = new_query
                 continue
@@ -64,14 +73,24 @@ class AdaptiveRAGAgent:
             st.trace.append({"node": "generate", "loop": loop, "answer_chars": len(answer)})
 
             # Grade generation
-            g = grade_generation(st.question, answer)
+            g = grade_generation(
+                st.question,
+                answer,
+                mode=self.settings.generation.grade_mode,
+                llm=self.llm,
+            )
             st.trace.append({"node": "grade_generation", "loop": loop, **asdict(g)})
 
             if g.supported and g.useful:
                 break
 
             # Otherwise rewrite and loop
-            st.query = rewrite_query(st.question, prev_query=st.query)
+            st.query = rewrite_query(
+                st.question,
+                prev_query=st.query,
+                mode=self.settings.retrieval.rewrite_mode,
+                llm=self.llm,
+            )
             st.trace.append({"node": "transform_query", "loop": loop, "new_query": st.query, "reason": g.reason})
 
         return st

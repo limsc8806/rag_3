@@ -1,0 +1,20 @@
+questions:
+  - id: e2e_rtt_wr
+    query: "RTT_WR default setting?"
+    expect_answer_contains:
+      - "RTT_WR"
+      - "MR34"
+      - "240 Ohm"
+      - "Evidence"
+
+  - id: e2e_mr7
+    query: "MR7 Register Information 요약"
+    expect_answer_contains:
+      - "MR7"
+      - "Evidence"
+
+  - id: e2e_reset_init
+    query: "RESET and Initialization Procedure 기본값 테이블은 무엇을 말하나?"
+    expect_answer_contains:
+      - "MR Default Settings"
+      - "Evidence"

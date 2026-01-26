@@ -19,12 +19,23 @@ chunking:
 retrieval:
   top_k_text: 6
   top_k_img: 4
+  top_k_table: 4
   merge_top_k: 8
   # TF-IDF cosine similarity 기반의 최소 관련성 임계치
   min_relevance_score: 0.12
+  # 모달리티 가중치 (합산 점수에 곱해짐)
+  weight_text: 1.0
+  weight_table: 1.0
+  weight_image: 1.0
+  # 쿼리 리라이트 방식: heuristic | llm
+  rewrite_mode: "llm"
 
 agent:
   max_loops: 2
+
+generation:
+  # 답변 평가 방식: heuristic | llm
+  grade_mode: "llm"
 
 llm:
   # LLM을 붙이려면 아래 중 하나를 사용하세요.
